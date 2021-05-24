@@ -16,6 +16,7 @@ module.exports = {
           yellow: colors.amber,
           hacker: {
             light: '#F6F6EF',
+            electric: '#FFF219',
             DEFAULT: '#FF6701',
             dark: '#888888',
           }

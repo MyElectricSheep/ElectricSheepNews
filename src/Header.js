@@ -34,17 +34,17 @@ const links = [
 
 const Link = ({to, text}) => {
     return (
-        <a href={to} className="hover:text-white">{text}</a>
+        <a href={to} className="hover:text-hacker">{text}</a>
     )
 }
 
 const Header = () => {
     return ( 
-        <div className="w-full text-left bg-hacker p-2 flex flex-row sticky top-0">
+        <div className="w-full text-left bg-hacker-electric p-2 flex flex-row sticky top-0">
             <div className="w-2/12">
             {/* 🐑⚡ */}
-                <span className="text-white font-bold p-1 m-1 border-2">ES</span> 
-                <strong>Hacker News</strong>
+                <span className="text-hacker font-bold p-1 m-1 border-2 border-black">ESN</span> 
+                <strong>Electric Sheep News</strong>
             </div>
             <div className="flex flex-row justify-between w-10/12">
                 <div>
