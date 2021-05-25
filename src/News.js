@@ -13,7 +13,7 @@ const News = () => {
     return ( 
         <div className="w-full bg-hacker-light h-full pt-2">
             {news?.map((story, index) => {
-                return <Story key={nanoid()} story={story} index={index}/>
+                return <Story key={nanoid()} story={story} index={++index}/>
             })}
             {!loading && news && <h1 ref={loader}>Scroll down for more!</h1>}
             {/* <button onClick={() => setPage(1)}>dwmdlm</button> */}

@@ -43,7 +43,7 @@ const Header = () => {
         <div className="w-full text-left bg-hacker-electric p-2 flex flex-row sticky top-0">
             <div className="w-2/12">
             {/* 🐑⚡ */}
-                <span className="text-hacker font-bold p-1 m-1 border-2 border-black">ESN</span> 
+                <span className="text-hacker font-bold p-1 m-1 ">🐑⚡</span> 
                 <strong>Electric Sheep News</strong>
             </div>
             <div className="flex flex-row justify-between w-10/12">
