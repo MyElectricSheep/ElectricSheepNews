@@ -63,18 +63,31 @@ const CollapsibleComment = ({ author, children, created_at, id, text }) => {
 // type: "comment"
 // url: null
 
+const getCommentsWithChildren = (comment) => {
+  // if(!children)
+  if (comment.children && comment.children.length) {
+    comment.children.map((comment) => {
+      return getCommentsWithChildren(comment);
+    });
+  }
+  return <CollapsibleComment key={comment.id} {...comment} />;
+};
+
 const StoryWithComments = () => {
   // http://hn.algolia.com/api/v1/items/:id
   const { id } = useParams();
   const [error, loading, storyWithComments] = useHackerComments(id);
   console.log(storyWithComments);
+
+  const setScreenHeight = () => {
+    if (!storyWithComments?.children?.length || loading) return "h-screen";
+    return "h-full";
+  };
   return (
     <div
       className={`w-full bg-hacker-light ${
-        loading
-          ? "h-screen flex flex-col items-center justify-center"
-          : "h-full"
-      } pt-2`}
+        loading ? "flex flex-col items-center justify-center" : ""
+      } ${setScreenHeight()} pt-2`}
     >
       {loading ? (
         <BeatLoader color="black" loading={loading} size={20} />
@@ -96,10 +109,15 @@ const StoryWithComments = () => {
           </div>
           {/* Comments section */}
           <div className="pt-6 pr-3 pl-3">
-            {storyWithComments &&
-              storyWithComments?.children?.map((comment) => {
+            {storyWithComments?.children?.length ? (
+              storyWithComments.children.map((comment) => {
                 return <CollapsibleComment key={comment.id} {...comment} />;
-              })}
+              })
+            ) : (
+              <p className="pl-3 text-sm">
+                This story does not have comments yet
+              </p>
+            )}
           </div>
         </>
       )}
@@ -108,3 +126,5 @@ const StoryWithComments = () => {
 };
 
 export default StoryWithComments;
+
+// getCommentsWithChildren(storyWithComments)

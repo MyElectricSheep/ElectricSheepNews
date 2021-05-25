@@ -65,7 +65,7 @@ const useHackerNews = (loader) => {
     }
   }, [loading, loader, page, maxPages]);
 
-  return [error, loading, news, setPage];
+  return [error, loading, news];
 };
 
 export default useHackerNews;
