@@ -26,14 +26,16 @@ const Story = ({
   };
 
   return (
-    <div className="flex flex-col pl-2 text-sm pt-1">
-      <div className="flex flex-row items-center">
-        {index && <span className="pr-1 text-hacker-dark">{index}.</span>}
-        <img
-          src={arrow}
-          alt="upvote"
-          style={{ width: "12px", height: "12px", marginBottom: "2px" }}
-        />
+    <div className="flex flex-col px-1 md:pl-2 text-sm pt-1 text-center">
+      <div className="flex flex-col md:flex-row items-center">
+        <div className="flex flex-row items-center">
+          {index && <span className="pr-1 text-hacker-dark">{index}.</span>}
+          <img
+            src={arrow}
+            alt="upvote"
+            style={{ width: "12px", height: "12px", marginBottom: "2px" }}
+          />
+        </div>
         <a className="pl-1" href={url} target="_blank" rel="noreferrer">
           {title}
         </a>
@@ -41,7 +43,7 @@ const Story = ({
           ({getDomainFromUrl(url)})
         </span>
       </div>
-      <div className={`flex flex-row pl-${index ? "8" : "4"}`}>
+      <div className={`flex flex-col md:flex-row md:pl-${index ? "8" : "4"}`}>
         <p className="text-hacker-dark text-xs">
           {points} point{points > 1 && "s"} by <span>{author}</span>
         </p>

@@ -56,18 +56,18 @@ const Header = ({ setSearch }) => {
   };
 
   return (
-    <div className="w-full text-left bg-hacker-electric p-2 flex flex-row">
+    <div className="flex flex-col w-full lg:text-left justify-center items-center lg:justify-between bg-hacker-electric p-2 lg:flex-row">
       {/* sticky top-0 */}
-      <div className="w-2/12">
+      <div className="lg:w-4/12">
         {/* 🐑⚡ */}
         <span className="text-hacker font-bold p-1 m-1 ">
           <Link to="/">🐑 ⚡</Link>
         </span>
         <Link to="/">
-          <strong>Electric Sheep News</strong>
+          <strong className="text-lg md:text-base ">Electric Sheep News</strong>
         </Link>
       </div>
-      <div className="flex flex-row justify-between w-10/12">
+      <div className="flex flex-row justify-between text-xs py-2 lg:py-0 lg:text-sm lg:w-5/12">
         <div>
           {links.map((link, index, array) => {
             return (
@@ -78,21 +78,24 @@ const Header = ({ setSearch }) => {
             );
           })}
         </div>
-        <div className="pr-2">
-          <label htmlFor="id" className="text-hacker-dark text-sm pr-2">
-            Search:
-          </label>
-          <input
-            type="text"
-            className="border py-0 px-0 text-sm rounded-sm"
-            autoComplete="off"
-            value={userInput}
-            onChange={handleUserInput}
-            onKeyDown={handleSetSearch}
-            placeholder="Enter a topic here"
-            id="search"
-          ></input>
-        </div>
+      </div>
+      <div className="pr-2">
+        <label
+          htmlFor="id"
+          className="text-hacker-dark text-xs xl:text-sm pr-2"
+        >
+          Search:
+        </label>
+        <input
+          type="text"
+          className="border py-0 px-0 text-sm rounded-sm"
+          autoComplete="off"
+          value={userInput}
+          onChange={handleUserInput}
+          onKeyDown={handleSetSearch}
+          placeholder="Enter a topic here"
+          id="search"
+        ></input>
       </div>
     </div>
   );
