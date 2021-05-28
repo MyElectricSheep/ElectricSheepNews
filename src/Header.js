@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 import { nanoid } from "nanoid";
 
@@ -41,13 +41,27 @@ const CustomLink = ({ to, text }) => {
   );
 };
 
-const Header = () => {
+const Header = ({ setSearch }) => {
+  const [userInput, setUserInput] = useState("");
+
+  const handleUserInput = (e) => {
+    setUserInput(e.target.value);
+  };
+
+  const handleSetSearch = (e) => {
+    if (e.key === "Enter" && userInput) {
+      setSearch(userInput);
+      setUserInput("");
+    }
+  };
+
   return (
-    <div className="w-full text-left bg-hacker-electric p-2 flex flex-row sticky top-0">
+    <div className="w-full text-left bg-hacker-electric p-2 flex flex-row">
+      {/* sticky top-0 */}
       <div className="w-2/12">
         {/* 🐑⚡ */}
         <span className="text-hacker font-bold p-1 m-1 ">
-          <Link to="/">🐑⚡</Link>
+          <Link to="/">🐑 ⚡</Link>
         </span>
         <Link to="/">
           <strong>Electric Sheep News</strong>
@@ -64,7 +78,21 @@ const Header = () => {
             );
           })}
         </div>
-        <CustomLink to="login" text="login" />
+        <div className="pr-2">
+          <label htmlFor="id" className="text-hacker-dark text-sm pr-2">
+            Search:
+          </label>
+          <input
+            type="text"
+            className="border py-0 px-0 text-sm rounded-sm"
+            autoComplete="off"
+            value={userInput}
+            onChange={handleUserInput}
+            onKeyDown={handleSetSearch}
+            placeholder="Enter a topic here"
+            id="search"
+          ></input>
+        </div>
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const useHackerNews = (loader) => {
+const useHackerNews = (loader, search) => {
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState();
   const [error, setError] = useState();
@@ -8,9 +8,16 @@ const useHackerNews = (loader) => {
   const [maxPages, setMaxPages] = useState();
 
   useEffect(() => {
+    // console.log("fired; search is ", search);
+    let sanitizedSearch;
+    if (search) {
+      sanitizedSearch = search.replace(/[^\w\d\s.]+/g, "").toLowerCase();
+    }
     setLoading(true);
     fetch(
-      `https://hn.algolia.com/api/v1/search_by_date?tags=story&hitsPerPage=30&page=${page}`
+      `https://hn.algolia.com/api/v1/search_by_date?${
+        search ? `query=${sanitizedSearch}&` : ""
+      }tags=story&hitsPerPage=30&page=${page}`
     )
       .then(
         (res) => {
@@ -24,7 +31,12 @@ const useHackerNews = (loader) => {
         }
       )
       .then((data) => {
-        setNews((prevNews) => [...prevNews, ...data.hits]);
+        if (page === 0) {
+          setNews(data.hits);
+        } else {
+          setNews((prevNews) => [...prevNews, ...data.hits]);
+        }
+
         setMaxPages(data.nbPages);
         setLoading(false);
       })
@@ -33,7 +45,7 @@ const useHackerNews = (loader) => {
         setError(error);
         console.log(error.message);
       });
-  }, [page]);
+  }, [page, search]);
 
   useEffect(() => {
     if (!loading) {
@@ -65,7 +77,7 @@ const useHackerNews = (loader) => {
     }
   }, [loading, loader, page, maxPages]);
 
-  return [error, loading, news];
+  return [error, loading, news, setPage];
 };
 
 export default useHackerNews;
