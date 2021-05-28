@@ -9,42 +9,53 @@ const useHackerNews = (loader, search) => {
 
   useEffect(() => {
     // console.log("fired; search is ", search);
-    let sanitizedSearch;
-    if (search) {
-      sanitizedSearch = search.replace(/[^\w\d\s.]+/g, "").toLowerCase();
-    }
-    setLoading(true);
-    fetch(
-      `https://hn.algolia.com/api/v1/search_by_date?${
-        search ? `query=${sanitizedSearch}&` : ""
-      }tags=story&hitsPerPage=30&page=${page}`
-    )
-      .then(
-        (res) => {
-          if (!res.ok) throw new Error(res.error);
-          return res.json();
-        },
-        (error) => {
+    const fetchHN = () => {
+      let sanitizedSearch;
+      if (search) {
+        sanitizedSearch = search.replace(/[^\w\d\s.]+/g, "").toLowerCase();
+      }
+      setLoading(true);
+      fetch(
+        `https://hn.algolia.com/api/v1/search_by_date?${
+          search ? `query=${sanitizedSearch}&` : ""
+        }tags=story&hitsPerPage=30&page=${page}`
+      )
+        .then(
+          (res) => {
+            if (!res.ok) throw new Error(res.error);
+            return res.json();
+          },
+          (error) => {
+            setLoading(false);
+            setError(error);
+            console.log(error.message);
+          }
+        )
+        .then((data) => {
+          if (page === 0) {
+            setNews(data.hits);
+          } else {
+            setNews((prevNews) => [...prevNews, ...data.hits]);
+          }
+
+          setMaxPages(data.nbPages);
+          setLoading(false);
+        })
+        .catch((error) => {
           setLoading(false);
           setError(error);
           console.log(error.message);
-        }
-      )
-      .then((data) => {
-        if (page === 0) {
-          setNews(data.hits);
-        } else {
-          setNews((prevNews) => [...prevNews, ...data.hits]);
-        }
+        });
+    };
+    fetchHN();
 
-        setMaxPages(data.nbPages);
-        setLoading(false);
-      })
-      .catch((error) => {
-        setLoading(false);
-        setError(error);
-        console.log(error.message);
-      });
+    const fetchInterval = setInterval(() => {
+      fetchHN();
+    }, 30000); // 30000 === 30s // 120000 == 120s
+
+    return () => {
+      clearInterval(fetchInterval);
+    };
   }, [page, search]);
 
   useEffect(() => {
@@ -77,7 +88,7 @@ const useHackerNews = (loader, search) => {
     }
   }, [loading, loader, page, maxPages]);
 
-  return [error, loading, news, setPage];
+  return [error, loading, news, page];
 };
 
 export default useHackerNews;

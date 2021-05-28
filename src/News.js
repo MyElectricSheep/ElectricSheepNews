@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import Story from "./Story";
 import useHackerNews from "./hooks/useHackerNews";
 import BeatLoader from "react-spinners/BeatLoader";
@@ -8,18 +8,38 @@ const News = ({ search, setSearch }) => {
   // Create ref to attach to the loader component
   const loader = useRef(null);
 
-  const [error, loading, news, setPage] = useHackerNews(loader, search);
+  const [error, loading, news, page] = useHackerNews(loader, search);
+
+  const [counter, setCounter] = useState(10);
+  const timer = useRef(undefined);
+
+  const handleResetTimer = () => {
+    clearInterval(timer.current);
+    timer.current = undefined;
+    setCounter(30);
+  };
 
   useEffect(() => {
-    setPage(0);
-  }, [search, setPage]);
+    handleResetTimer();
+  }, [page, search]);
+
+  useEffect(() => {
+    if (!timer.current) {
+      timer.current = setInterval(
+        () => setCounter((prevCounter) => prevCounter - 1),
+        1000
+      );
+    } else if (counter === 0 && timer.current) {
+      handleResetTimer();
+    }
+  }, [counter]);
 
   const showLoader = loading && news.length < 30;
 
   //   console.log(news.length);
   return (
     <div
-      className={`w-full bg-hacker-light ${
+      className={`relative w-full bg-hacker-light ${
         showLoader
           ? "flex flex-col items-center justify-center h-screen"
           : "h-full"
@@ -29,6 +49,9 @@ const News = ({ search, setSearch }) => {
         <BeatLoader color="black" loading={loading} size={20} />
       ) : (
         <div className="flex flex-col pt-1">
+          <div className="fixed bottom-0 right-8 sm:right-16 md:right-32 xl:right-1/2 opacity-30 text-hacker-dark text-sm">
+            Next update in: {counter}s
+          </div>
           {search && (
             <div className="flex flex-row self-end pr-5">
               <p className=" pt-1 pb-1">
