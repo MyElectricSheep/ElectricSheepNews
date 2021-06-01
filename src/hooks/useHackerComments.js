@@ -1,13 +1,16 @@
 import { useState, useEffect } from "react";
 
+const { REACT_APP_HN_API } = process.env;
+
 const useHackerNews = (id) => {
   const [storyWithComments, setStoryWithComments] = useState([]);
   const [loading, setLoading] = useState();
   const [error, setError] = useState();
 
   useEffect(() => {
+    const url = new URL(`${REACT_APP_HN_API}/items/${id}`);
     setLoading(true);
-    fetch(`http://hn.algolia.com/api/v1/items/${id}`)
+    fetch(url)
       .then(
         (res) => {
           if (!res.ok) throw new Error(res.error);

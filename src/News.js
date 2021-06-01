@@ -4,7 +4,7 @@ import useHackerNews from "./hooks/useHackerNews";
 import BeatLoader from "react-spinners/BeatLoader";
 import { nanoid } from "nanoid";
 
-const News = ({ search, setSearch }) => {
+const News = ({ search, setSearch, hidden, setHidden }) => {
   // Create ref to attach to the loader component
   const loader = useRef(null);
 
@@ -68,9 +68,18 @@ const News = ({ search, setSearch }) => {
               </span>
             </div>
           )}
-          {news?.map((story, index) => {
-            return <Story key={nanoid()} story={story} index={++index} />;
-          })}
+          {news
+            ?.filter((story) => !hidden.includes(story.objectID))
+            .map((story, index) => {
+              return (
+                <Story
+                  key={nanoid()}
+                  story={story}
+                  index={++index}
+                  setHidden={setHidden}
+                />
+              );
+            })}
         </div>
       )}
       {!loading && news && <h1 ref={loader}>Scroll down for more!</h1>}

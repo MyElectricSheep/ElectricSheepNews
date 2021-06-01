@@ -7,19 +7,34 @@ const useHackerNews = (loader, search) => {
   const [page, setPage] = useState(0);
   const [maxPages, setMaxPages] = useState();
 
+  const { REACT_APP_HN_API } = process.env;
+
   useEffect(() => {
     // console.log("fired; search is ", search);
     const fetchHN = () => {
-      let sanitizedSearch;
+      // Setting the query parameters manually (messy and prone to error):
+      // `https://hn.algolia.com/api/v1/search_by_date?${search ? `query=${search}&` : ""}tags=story&hitsPerPage=30&page=${page}`
+
+      // Setting the query parameters using the URL + URLSearchParams API (cleaner, escaped, safer, but more verbose)
+      // https://developer.mozilla.org/en-US/docs/Web/API/URL_API
+      // https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams
+      // https://felixgerschau.com/js-manipulate-url-search-params/
+      const url = new URL(`${REACT_APP_HN_API}/search_by_date`);
+
+      const params = {
+        tags: "story",
+        hitsPerPage: 30,
+      };
+      if (page) params.page = page;
       if (search) {
-        sanitizedSearch = search.replace(/[^\w\d\s.]+/g, "").toLowerCase();
+        params.query = search.replace(/[^\w\d\s.]+/g, "").toLowerCase();
+        params.restrictSearchableAttributes = "url";
       }
+
+      url.search = new URLSearchParams(params);
+
       setLoading(true);
-      fetch(
-        `https://hn.algolia.com/api/v1/search_by_date?${
-          search ? `query=${sanitizedSearch}&` : ""
-        }tags=story&hitsPerPage=30&page=${page}`
-      )
+      fetch(url)
         .then(
           (res) => {
             if (!res.ok) throw new Error(res.error);

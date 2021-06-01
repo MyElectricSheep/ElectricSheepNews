@@ -1,47 +1,58 @@
-import React, { Fragment, useState } from "react";
+import React, {
+  // Fragment,
+  useState,
+} from "react";
 import { Link } from "react-router-dom";
-import { nanoid } from "nanoid";
+import {
+  useHistory,
+  useLocation,
+  useParams,
+  useRouteMatch,
+} from "react-router-dom";
+// import { nanoid } from "nanoid";
 
-const links = [
-  {
-    to: "newest",
-    text: "new",
-  },
-  {
-    to: "front",
-    text: "past",
-  },
-  {
-    to: "newcomments",
-    text: "comments",
-  },
-  {
-    to: "ask",
-    text: "ask",
-  },
-  {
-    to: "show",
-    text: "show",
-  },
-  {
-    to: "jobs",
-    text: "jobs",
-  },
-  {
-    to: "submit",
-    text: "submit",
-  },
-];
+// const links = [
+//   {
+//     to: "newest",
+//     text: "new",
+//   },
+//   {
+//     to: "front",
+//     text: "past",
+//   },
+//   {
+//     to: "newcomments",
+//     text: "comments",
+//   },
+//   {
+//     to: "ask",
+//     text: "ask",
+//   },
+//   {
+//     to: "show",
+//     text: "show",
+//   },
+//   {
+//     to: "jobs",
+//     text: "jobs",
+//   },
+//   {
+//     to: "submit",
+//     text: "submit",
+//   },
+// ];
 
-const CustomLink = ({ to, text }) => {
-  return (
-    <Link to={`/${to}`} className="hover:text-hacker">
-      {text}
-    </Link>
-  );
-};
+// const CustomLink = ({ to, text }) => {
+//   return (
+//     <Link to={`/${to}`} className="hover:text-hacker">
+//       {text}
+//     </Link>
+//   );
+// };
 
 const Header = ({ setSearch }) => {
+  const history = useHistory();
+
   const [userInput, setUserInput] = useState("");
 
   const handleUserInput = (e) => {
@@ -52,6 +63,9 @@ const Header = ({ setSearch }) => {
     if (e.key === "Enter" && userInput) {
       setSearch(userInput);
       setUserInput("");
+      if (history?.location?.pathname.includes("/story")) {
+        history.push("/");
+      }
     }
   };
 
@@ -88,7 +102,7 @@ const Header = ({ setSearch }) => {
         </label>
         <input
           type="text"
-          className="border py-0 px-0 text-sm rounded-sm"
+          className="border py-0 px-0 text-sm rounded-sm text-center"
           autoComplete="off"
           value={userInput}
           onChange={handleUserInput}

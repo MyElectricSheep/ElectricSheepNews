@@ -5,6 +5,7 @@ import parse from "html-react-parser";
 import BeatLoader from "react-spinners/BeatLoader";
 import useHackerComments from "./hooks/useHackerComments";
 import Story from "./Story";
+import toaster from "./utilities/toaster";
 
 import formatTime from "./utilities/formatTime";
 
@@ -29,7 +30,14 @@ const Comment = ({ author, created_at }) => {
   );
 };
 
-const CollapsibleComment = ({ author, children, created_at, id, text }) => {
+const CollapsibleComment = ({
+  author,
+  children,
+  created_at,
+  id,
+  text,
+  onReply,
+}) => {
   if (!text) return null;
   return (
     <Collapsible
@@ -40,7 +48,7 @@ const CollapsibleComment = ({ author, children, created_at, id, text }) => {
         <div className="ml-6 text-xs pt-0.5">{parse(text)}</div>
         <span
           className="ml-6 text-hacker-dark text-xxs border-b border-dashed border-hacker-dark w-auto cursor-pointer"
-          href="#"
+          onClick={onReply}
         >
           reply
         </span>
@@ -83,6 +91,17 @@ const StoryWithComments = () => {
     if (!storyWithComments?.children?.length || loading) return "h-screen";
     return "h-full";
   };
+
+  const handleSubmitComment = (e) => {
+    e.preventDefault();
+    toaster("💁 You must be logged in to add a comment!");
+    setTimeout(() => e.target.reset(), 2000);
+  };
+
+  const handleReplyToComment = () => {
+    toaster("💁 You must be logged in to reply to a comment!");
+  };
+
   return (
     <div
       className={`w-full bg-hacker-light ${
@@ -93,10 +112,13 @@ const StoryWithComments = () => {
         <BeatLoader color="black" loading={loading} size={20} />
       ) : (
         <>
-          <Story story={storyWithComments} />
+          <Story story={storyWithComments} withComments={true} />
           {/* Write a comment section */}
           <div className="ml-6 pt-5 pr-6 md:pr-0">
-            <form className="flex flex-col md:w-2/3 lg:w-1/3 sm:w-full items-start">
+            <form
+              className="flex flex-col md:w-2/3 lg:w-1/3 sm:w-full items-start"
+              onSubmit={handleSubmitComment}
+            >
               <textarea
                 className="border-black border"
                 cols="75"
@@ -111,7 +133,13 @@ const StoryWithComments = () => {
           <div className="pt-6 pr-3 pl-3">
             {storyWithComments?.children?.length ? (
               storyWithComments.children.map((comment) => {
-                return <CollapsibleComment key={comment.id} {...comment} />;
+                return (
+                  <CollapsibleComment
+                    key={comment.id}
+                    onReply={handleReplyToComment}
+                    {...comment}
+                  />
+                );
               })
             ) : (
               <p className="pl-3 text-sm">

@@ -12,6 +12,7 @@ const News = lazy(() => import("./News.js"));
 
 const App = () => {
   const [search, setSearch] = useState("");
+  const [hidden, setHidden] = useState([]);
 
   useEffect(() => {});
 
@@ -24,7 +25,12 @@ const App = () => {
             <StoryWithComments />
           </Route>
           <Route path="/">
-            <News search={search} setSearch={setSearch} />
+            <News
+              search={search}
+              setSearch={setSearch}
+              hidden={hidden}
+              setHidden={setHidden}
+            />
           </Route>
         </Switch>
       </Suspense>
