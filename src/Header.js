@@ -68,7 +68,7 @@ const Header = ({ setSearch }) => {
         </Link>
       </div>
       <div className="flex flex-row justify-between text-xs py-2 lg:py-0 lg:text-sm lg:w-5/12">
-        <div>
+        {/* <div>
           {links.map((link, index, array) => {
             return (
               <Fragment key={nanoid()}>
@@ -77,7 +77,7 @@ const Header = ({ setSearch }) => {
               </Fragment>
             );
           })}
-        </div>
+        </div> */}
       </div>
       <div className="pr-2">
         <label
