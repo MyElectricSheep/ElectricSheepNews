@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import formatTime from "./utilities/formatTime";
 import arrow from "./img/grayarrow.gif";
+import { toast } from "react-toastify";
+import "./css/overrides.css";
 
 const Story = ({
   story: {
@@ -25,6 +27,18 @@ const Story = ({
     return sanitizedUrl;
   };
 
+  const handleUpvote = () => {
+    toast.warn("💁 You must be logged in to upvote a story!", {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  };
+
   return (
     <div className="flex flex-col px-1 md:pl-2 text-sm pt-1 text-center">
       <div className="flex flex-col md:flex-row items-center">
@@ -32,8 +46,10 @@ const Story = ({
           {index && <span className="pr-1 text-hacker-dark">{index}.</span>}
           <img
             src={arrow}
+            className="cursor-pointer"
             alt="upvote"
             style={{ width: "12px", height: "12px", marginBottom: "2px" }}
+            onClick={handleUpvote}
           />
         </div>
         <a className="pl-1" href={url} target="_blank" rel="noreferrer">
