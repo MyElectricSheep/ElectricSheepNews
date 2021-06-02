@@ -28,7 +28,7 @@ const useHackerNews = (loader, search) => {
       if (page) params.page = page;
       if (search) {
         params.query = search.replace(/[^\w\d\s.]+/g, "").toLowerCase();
-        params.restrictSearchableAttributes = "url";
+        params.restrictSearchableAttributes = "title";
       }
 
       url.search = new URLSearchParams(params);
@@ -71,7 +71,7 @@ const useHackerNews = (loader, search) => {
     return () => {
       clearInterval(fetchInterval);
     };
-  }, [page, search]);
+  }, [page, search, REACT_APP_HN_API]);
 
   useEffect(() => {
     if (!loading) {
@@ -103,7 +103,7 @@ const useHackerNews = (loader, search) => {
     }
   }, [loading, loader, page, maxPages]);
 
-  return [error, loading, news, page];
+  return [error, loading, news, page, setPage];
 };
 
 export default useHackerNews;

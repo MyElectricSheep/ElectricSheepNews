@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Collapsible from "react-collapsible";
 import parse from "html-react-parser";
@@ -98,6 +98,13 @@ const StoryWithComments = () => {
   const { id } = useParams();
   const [error, loading, storyWithComments] = useHackerComments(id);
   console.log(storyWithComments);
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, []);
 
   const setScreenHeight = () => {
     if (!storyWithComments?.children?.length || loading) return "h-screen";
