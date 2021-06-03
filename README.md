@@ -3,10 +3,10 @@
 This is a clone of the [Hacker News](https://news.ycombinator.com/) website.
 
 __It is implemented using React + Tailwind CSS and provides the user with the following:__
-🔄 News are refreshed automatically every 30 seconds
-🕵️ A search query can be made to filter news only about a specific topic
-⏬ Infinite scrolling allows for seamless navigation without pagination
-✍️ All comments attached to the original HN story are parsed recursively and color coded for ease of reading
+- 🔄 News are refreshed automatically every 30 seconds
+- 🕵️ A search query can be made to filter news only about a specific topic
+- ⏬ Infinite scrolling allows for seamless navigation without pagination
+- ✍️ All comments attached to the original HN story are parsed recursively and color coded for ease of reading
 
 Some functionalities are mocks (eg: upvote / leave a comment) and will trigger a toast message inviting the user to login.
 
