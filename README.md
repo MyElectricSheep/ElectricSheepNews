@@ -24,6 +24,6 @@ Electric Sheep News accesses Hacker News data programmatically using this REST A
 
 # 🚀 Live version
 
-A [live version of the app](https://electric-sheep-news.netlify.app/) can be found here!
+A [live version of the app](https://news.ben.express) can be found here!
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/46582eb9-cdb8-416c-9748-0eaeded1440b/deploy-status)](https://app.netlify.com/sites/electric-sheep-news/deploys)
