@@ -2,6 +2,8 @@
 
 This is a clone of the [Hacker News](https://news.ycombinator.com/) website.
 
+![Electric News Screenshot](https://raw.githubusercontent.com/MyElectricSheep/ElectricSheepNews/main/electric-news-screenshot-1.png)
+
 __It is implemented using React + Tailwind CSS and provides the user with the following:__
 - 🔄. News are refreshed automatically every 30 seconds
 - 🕵️. A search query can be made to filter news only about a specific topic
@@ -18,6 +20,7 @@ Electric Sheep News accesses Hacker News data programmatically using this REST A
 
 [Hacker News Algolia API](https://hn.algolia.com/api)
 
+![Electric News Screenshot](https://raw.githubusercontent.com/MyElectricSheep/ElectricSheepNews/main/electric-news-screenshot-2.png)
 
 # 🚀 Live version
 
